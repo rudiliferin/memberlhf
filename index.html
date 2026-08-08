@@ -1,0 +1,1367 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kerajaan Liferin Healthy Foods - Portal Titah & Status Membership</title>
+  
+  <!-- Google Fonts: Cinzel & Poppins -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700;800;900&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    /* ==========================================================================
+       ROYAL SYSTEM DESIGN & VARIABLES
+       ========================================================================== */
+    :root {
+      --gold-light: #FFE885;
+      --gold-primary: #D4AF37;
+      --gold-dark: #A37F14;
+      --gold-metallic: linear-gradient(135deg, #FFF1B0 0%, #E6C251 25%, #D4AF37 50%, #997517 75%, #FFDF73 100%);
+      --royal-blue-dark: #070B14;
+      --royal-blue-navy: #0F172A;
+      --royal-blue-card: #141E33;
+      --royal-blue-accent: #1E3A8A;
+      --maroon-dark: #4A0404;
+      --maroon-accent: #800020;
+      --emerald-dark: #064E3B;
+      --emerald-light: #10B981;
+      --text-gold: #FCE788;
+      --text-white: #F8FAFC;
+      --text-muted: #94A3B8;
+      --shadow-gold: 0 0 25px rgba(212, 175, 55, 0.25);
+      --font-royal: 'Cinzel', serif;
+      --font-body: 'Poppins', sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      background-color: var(--royal-blue-dark);
+      background-image: 
+        radial-gradient(circle at 50% 0%, #1E293B 0%, #070B14 70%),
+        radial-gradient(circle at 80% 80%, rgba(128, 0, 32, 0.15) 0%, transparent 50%);
+      color: var(--text-white);
+      font-family: var(--font-body);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      padding: 1.5rem 1rem 3rem 1rem;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    /* Floating Particles Canvas Background */
+    #royalParticles {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    #confettiCanvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 999;
+    }
+
+    /* Main Container */
+    .app-container {
+      width: 100%;
+      max-width: 520px;
+      z-index: 2;
+      position: relative;
+    }
+
+    /* Royal Crest Header */
+    .royal-header {
+      text-align: center;
+      margin-bottom: 2rem;
+      position: relative;
+      animation: fadeInDown 1s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .crown-container {
+      position: relative;
+      display: inline-block;
+      margin-bottom: 0.75rem;
+    }
+
+    .crown-icon {
+      font-size: 3.8rem;
+      filter: drop-shadow(0 0 15px rgba(212, 175, 55, 0.6));
+      animation: crownPulse 3s infinite ease-in-out;
+      display: inline-block;
+    }
+
+    .header-title {
+      font-family: var(--font-royal);
+      font-size: 1.65rem;
+      font-weight: 800;
+      letter-spacing: 2px;
+      background: var(--gold-metallic);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+      text-transform: uppercase;
+      line-height: 1.3;
+      margin-bottom: 0.4rem;
+    }
+
+    .header-subtitle {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      letter-spacing: 1px;
+      font-weight: 400;
+      text-transform: uppercase;
+    }
+
+
+
+    /* Royal Card Base */
+    .royal-card {
+      background: rgba(20, 30, 51, 0.85);
+      border: 1px solid rgba(212, 175, 55, 0.35);
+      border-radius: 20px;
+      padding: 2rem 1.75rem;
+      box-shadow: 
+        0 15px 35px rgba(0, 0, 0, 0.6),
+        inset 0 0 15px rgba(212, 175, 55, 0.05);
+      backdrop-filter: blur(16px);
+      position: relative;
+      overflow: hidden;
+      transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .royal-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: var(--gold-metallic);
+    }
+
+    /* Section Views */
+    .view-section {
+      display: none;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+
+    .view-section.active {
+      display: block;
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Search View Specifics */
+    .welcome-text-box {
+      background: rgba(128, 0, 32, 0.2);
+      border: 1px dashed rgba(212, 175, 55, 0.4);
+      border-radius: 12px;
+      padding: 1rem;
+      margin-bottom: 1.75rem;
+      text-align: center;
+    }
+
+    .welcome-text-box p {
+      font-size: 0.9rem;
+      line-height: 1.6;
+      color: #E2E8F0;
+    }
+
+    .input-group {
+      margin-bottom: 1.5rem;
+      position: relative;
+    }
+
+    .input-label {
+      display: block;
+      font-size: 0.85rem;
+      color: var(--text-gold);
+      font-weight: 600;
+      margin-bottom: 0.6rem;
+      letter-spacing: 0.5px;
+      text-align: center;
+    }
+
+    .input-wrapper {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+
+    .phone-input {
+      width: 100%;
+      background: rgba(10, 15, 26, 0.9);
+      border: 1.5px solid rgba(212, 175, 55, 0.4);
+      border-radius: 12px;
+      padding: 1rem 3.5rem 1rem 1.25rem;
+      color: #FFFFFF;
+      font-family: var(--font-body);
+      font-size: 1.2rem;
+      font-weight: 600;
+      letter-spacing: 4px;
+      text-align: center;
+      outline: none;
+      transition: all 0.3s ease;
+    }
+
+    .phone-input::placeholder {
+      letter-spacing: 1px;
+      font-size: 0.9rem;
+      color: #64748B;
+      font-weight: 400;
+    }
+
+    .phone-input:focus {
+      border-color: var(--gold-primary);
+      box-shadow: 0 0 20px rgba(212, 175, 55, 0.3);
+      background: rgba(15, 23, 42, 0.95);
+    }
+
+    .char-counter {
+      position: absolute;
+      right: 1rem;
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      font-weight: 600;
+      pointer-events: none;
+    }
+
+    .input-hint {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      margin-top: 0.5rem;
+      text-align: center;
+      line-height: 1.4;
+    }
+
+    /* Buttons */
+    .btn-royal-primary {
+      width: 100%;
+      background: var(--gold-metallic);
+      color: #1A0F00;
+      border: none;
+      border-radius: 12px;
+      padding: 1.05rem;
+      font-family: var(--font-royal);
+      font-size: 1rem;
+      font-weight: 800;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      cursor: pointer;
+      box-shadow: 0 8px 20px rgba(212, 175, 55, 0.3);
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.6rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .btn-royal-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 28px rgba(212, 175, 55, 0.45);
+      filter: brightness(1.08);
+    }
+
+    .btn-royal-primary:active {
+      transform: translateY(1px);
+    }
+
+    .btn-royal-secondary {
+      width: 100%;
+      background: transparent;
+      border: 1.5px solid rgba(212, 175, 55, 0.5);
+      color: var(--text-gold);
+      border-radius: 12px;
+      padding: 0.9rem;
+      font-family: var(--font-royal);
+      font-size: 0.9rem;
+      font-weight: 700;
+      letter-spacing: 1px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      margin-top: 1rem;
+    }
+
+    .btn-royal-secondary:hover {
+      background: rgba(212, 175, 55, 0.12);
+      border-color: var(--gold-primary);
+    }
+
+    /* Sample Tags */
+    .sample-tags {
+      margin-top: 1.5rem;
+      text-align: center;
+    }
+
+    .sample-title {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      margin-bottom: 0.5rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .tag-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 0.4rem;
+    }
+
+    .sample-tag {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(212, 175, 55, 0.2);
+      color: var(--text-gold);
+      padding: 0.25rem 0.6rem;
+      border-radius: 6px;
+      font-size: 0.75rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .sample-tag:hover {
+      background: rgba(212, 175, 55, 0.2);
+      border-color: var(--gold-primary);
+    }
+
+    /* Status Result Card */
+    .greeting-banner {
+      background: linear-gradient(135deg, rgba(128, 0, 32, 0.4) 0%, rgba(15, 23, 42, 0.6) 100%);
+      border: 1px solid rgba(212, 175, 55, 0.4);
+      border-radius: 14px;
+      padding: 1.1rem;
+      text-align: center;
+      margin-bottom: 1.5rem;
+      position: relative;
+    }
+
+    .greeting-title {
+      font-family: var(--font-royal);
+      font-size: 1.15rem;
+      color: var(--text-gold);
+      font-weight: 700;
+      line-height: 1.4;
+    }
+
+    .greeting-sub {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-top: 0.3rem;
+    }
+
+    .status-badge-hero {
+      text-align: center;
+      padding: 1.5rem 1rem;
+      border-radius: 16px;
+      margin-bottom: 1.5rem;
+      position: relative;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.4);
+    }
+
+    .tier-icon-wrapper {
+      width: 80px;
+      height: 80px;
+      margin: 0 auto 0.75rem auto;
+      background: rgba(0, 0, 0, 0.3);
+      border: 2px solid var(--gold-primary);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2.8rem;
+      box-shadow: 0 0 20px rgba(212, 175, 55, 0.3);
+      animation: float 3s ease-in-out infinite;
+    }
+
+    .tier-title-label {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: var(--text-muted);
+      margin-bottom: 0.2rem;
+    }
+
+    .tier-name {
+      font-family: var(--font-royal);
+      font-size: 2.1rem;
+      font-weight: 900;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-bottom: 0.4rem;
+      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+    }
+
+    .phone-id-badge {
+      display: inline-block;
+      background: rgba(0, 0, 0, 0.4);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      padding: 0.25rem 0.8rem;
+      border-radius: 20px;
+      font-size: 0.78rem;
+      color: #CBD5E1;
+      font-weight: 500;
+    }
+
+    /* Poin Kurma Emas Section */
+    .poin-section {
+      background: rgba(10, 15, 26, 0.6);
+      border: 1px solid rgba(212, 175, 55, 0.25);
+      border-radius: 14px;
+      padding: 1.25rem;
+      margin-bottom: 1.5rem;
+      text-align: center;
+    }
+
+    .poin-label {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .poin-value {
+      font-family: var(--font-royal);
+      font-size: 2.5rem;
+      font-weight: 900;
+      color: var(--text-gold);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      margin: 0.2rem 0;
+      text-shadow: 0 0 15px rgba(212, 175, 55, 0.4);
+    }
+
+    /* Progress Gamification */
+    .progress-box {
+      margin-top: 1rem;
+    }
+
+    .progress-bar-bg {
+      width: 100%;
+      height: 12px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 10px;
+      overflow: hidden;
+      margin: 0.6rem 0;
+      position: relative;
+      border: 1px solid rgba(212, 175, 55, 0.2);
+    }
+
+    .progress-bar-fill {
+      height: 100%;
+      background: var(--gold-metallic);
+      width: 0%;
+      transition: width 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(212, 175, 55, 0.8);
+    }
+
+    .persuasion-card {
+      background: rgba(128, 0, 32, 0.15);
+      border-left: 3px solid var(--gold-primary);
+      padding: 0.85rem;
+      border-radius: 0 10px 10px 0;
+      font-size: 0.83rem;
+      line-height: 1.5;
+      color: #E2E8F0;
+      margin-top: 0.8rem;
+      text-align: left;
+    }
+
+    /* Hadiah Khusus Section */
+    .rewards-section {
+      margin-bottom: 1.75rem;
+    }
+
+    .rewards-title {
+      font-family: var(--font-royal);
+      font-size: 1.05rem;
+      color: var(--text-gold);
+      font-weight: 700;
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .rewards-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 0.85rem;
+    }
+
+    .reward-item-card {
+      background: rgba(15, 23, 42, 0.8);
+      border: 1px solid rgba(212, 175, 55, 0.3);
+      border-radius: 14px;
+      padding: 1rem 1.1rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .reward-item-card:hover {
+      border-color: var(--gold-primary);
+      background: rgba(30, 41, 59, 0.9);
+      transform: translateX(4px);
+    }
+
+    .reward-icon-box {
+      width: 48px;
+      height: 48px;
+      background: rgba(212, 175, 55, 0.12);
+      border: 1px solid rgba(212, 175, 55, 0.4);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      flex-shrink: 0;
+    }
+
+    .reward-info {
+      flex-grow: 1;
+    }
+
+    .reward-title {
+      font-weight: 700;
+      font-size: 0.92rem;
+      color: #FFFFFF;
+      margin-bottom: 0.2rem;
+    }
+
+    .reward-desc {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      line-height: 1.4;
+    }
+
+    .reward-chest-btn {
+      background: rgba(212, 175, 55, 0.2);
+      border: 1px dashed var(--gold-primary);
+      color: var(--text-gold);
+      padding: 0.4rem 0.8rem;
+      border-radius: 8px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all 0.2s ease;
+    }
+
+    .reward-chest-btn:hover {
+      background: var(--gold-primary);
+      color: #000000;
+    }
+
+    /* Modal Notice */
+    .royal-modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(2, 6, 23, 0.85);
+      backdrop-filter: blur(8px);
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+
+    .royal-modal-overlay.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .royal-modal-card {
+      background: rgba(20, 30, 51, 0.95);
+      border: 1px solid rgba(212, 175, 55, 0.5);
+      border-radius: 20px;
+      padding: 2rem 1.5rem;
+      max-width: 420px;
+      width: 100%;
+      text-align: center;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8);
+      transform: scale(0.9);
+      transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .royal-modal-overlay.active .royal-modal-card {
+      transform: scale(1);
+    }
+
+    .modal-icon {
+      font-size: 3rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .modal-title {
+      font-family: var(--font-royal);
+      font-size: 1.25rem;
+      color: var(--text-gold);
+      font-weight: 800;
+      margin-bottom: 0.6rem;
+    }
+
+    .modal-desc {
+      font-size: 0.85rem;
+      color: #CBD5E1;
+      line-height: 1.6;
+      margin-bottom: 1.5rem;
+    }
+
+    /* Footer / Credits */
+    .royal-footer {
+      text-align: center;
+      margin-top: 2rem;
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      z-index: 2;
+    }
+
+    .live-status-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      background: rgba(16, 185, 129, 0.1);
+      border: 1px solid rgba(16, 185, 129, 0.3);
+      color: var(--emerald-light);
+      padding: 0.2rem 0.65rem;
+      border-radius: 20px;
+      font-size: 0.72rem;
+      margin-top: 0.5rem;
+    }
+
+    .status-dot {
+      width: 7px;
+      height: 7px;
+      background: var(--emerald-light);
+      border-radius: 50%;
+      box-shadow: 0 0 8px var(--emerald-light);
+      animation: blink 1.5s infinite ease-in-out;
+    }
+
+    /* Keyframe Animations */
+    @keyframes crownPulse {
+      0%, 100% { transform: scale(1) rotate(0deg); filter: drop-shadow(0 0 15px rgba(212, 175, 55, 0.6)); }
+      50% { transform: scale(1.06) rotate(2deg); filter: drop-shadow(0 0 25px rgba(251, 191, 36, 0.9)); }
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-6px); }
+    }
+
+    @keyframes fadeInDown {
+      from { opacity: 0; transform: translateY(-20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.3; }
+    }
+
+    /* Media Queries */
+    @media (max-width: 480px) {
+      body {
+        padding: 1rem 0.75rem 2rem 0.75rem;
+      }
+
+      .royal-card {
+        padding: 1.5rem 1.25rem;
+        border-radius: 16px;
+      }
+
+      .header-title {
+        font-size: 1.35rem;
+      }
+
+      .tier-name {
+        font-size: 1.7rem;
+      }
+
+      .phone-input {
+        font-size: 1.05rem;
+        padding: 0.85rem 3rem 0.85rem 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Floating Particles Canvas Background -->
+  <canvas id="royalParticles"></canvas>
+  <canvas id="confettiCanvas"></canvas>
+
+  <div class="app-container">
+
+    <!-- Header Section -->
+    <header class="royal-header">
+
+      <div class="crown-container">
+        <span class="crown-icon">👑</span>
+      </div>
+      <h1 class="header-title">KERAJAAN KURMA COKELAT</h1>
+      <p class="header-subtitle">LIFERIN HEALTHY FOODS</p>
+    </header>
+
+    <!-- Main Card Container -->
+    <main class="royal-card">
+
+      <!-- ==================== VIEW 1: FORM SEARCH ==================== -->
+      <section id="searchView" class="view-section active">
+        <div class="welcome-text-box">
+          <p>✨ <strong>Selamat Datang!</strong> Masukkan 6 angka terakhir nomor HP Anda untuk memeriksa status levelmu.</p>
+        </div>
+
+        <form id="searchForm" onsubmit="handleSearch(event)" novalidate>
+          <div class="input-group">
+            <label for="phoneInput" class="input-label">6 ANGKA TERAKHIR NOMOR HP</label>
+            <div class="input-wrapper">
+              <input 
+                type="text" 
+                id="phoneInput" 
+                class="phone-input" 
+                placeholder="Contoh : 123456" 
+                maxlength="6" 
+                inputmode="numeric" 
+                pattern="[0-9]*"
+                autocomplete="off"
+                required
+              >
+              <span class="char-counter" id="charCounter">0/6</span>
+            </div>
+          </div>
+
+          <button type="submit" id="submitBtn" class="btn-royal-primary">
+            <span>✨</span>
+            <span>CEK STATUS</span>
+          </button>
+        </form>
+      </section>
+
+      <!-- ==================== VIEW 2: RESULT CARD ==================== -->
+      <section id="resultView" class="view-section">
+        <!-- Sapaan Apresiatif -->
+        <div class="greeting-banner">
+          <h2 class="greeting-title" id="greetingName">Wahai Raden Mas, Gerbang Istana Kurma Cokelat Telah Terbuka!</h2>
+          <p class="greeting-sub" id="greetingSub">Nikmati kurma cokelat pilihan, kumpulkan Kurma Emas, dan tempuh perjalananmu menuju gelar tertinggi di Istana.</p>
+        </div>
+
+        <!-- Status Hero Card -->
+        <div class="status-badge-hero" id="statusBadgeHero">
+          <div class="tier-icon-wrapper" id="tierIcon">👑</div>
+          <p class="tier-title-label">STATUS LEVELMU</p>
+          <h3 class="tier-name" id="tierName">BANGSAWAN</h3>
+          <span class="phone-id-badge" id="phoneMasked">Tingkatan Level Dasar</span>
+        </div>
+
+        <!-- Poin Kurma Emas Section -->
+        <div class="poin-section">
+          <p class="poin-label">JUMLAH KURMA EMAS DIMILIKI</p>
+          <div class="poin-value">
+            <span>🌴</span>
+            <span id="kurmaCount">0</span>
+            <span style="font-size: 1.2rem;">Kurma</span>
+          </div>
+
+          <!-- Progress Gamification -->
+          <div class="progress-box" id="progressBox">
+            <div class="progress-bar-bg">
+              <div class="progress-bar-fill" id="progressBarFill"></div>
+            </div>
+            <div class="persuasion-card" id="persuasionMsg">
+              <!-- Dynamically populated -->
+            </div>
+          </div>
+        </div>
+
+        <!-- Hadiah Khusus Section -->
+        <div class="rewards-section">
+          <h4 class="rewards-title">
+            <span>🎁</span>
+            <span>Hadiah Khusus Ketahtaan</span>
+          </h4>
+          <div class="rewards-grid" id="rewardsGrid">
+            <!-- Dynamically populated -->
+          </div>
+        </div>
+
+        <!-- Reset Button -->
+        <button class="btn-royal-primary" onclick="resetToSearch()">
+          <span>🔄</span>
+          <span>CEK WARGA LAIN</span>
+        </button>
+      </section>
+
+    </main>
+
+    <!-- Error Modal -->
+    <div class="royal-modal-overlay" id="errorModal">
+      <div class="royal-modal-card">
+        <div class="modal-icon">📜</div>
+        <h3 class="modal-title">Titah Tidak Ditemukan</h3>
+        <p class="modal-desc" id="errorModalMsg">
+          Maaf, jejak langkahmu belum tercatat di gerbang istana. Pastikan 6 angka terakhir nomor HP-mu sudah benar, atau hubungi Pengawal Istana Liferin.
+        </p>
+        <button class="btn-royal-primary" onclick="closeErrorModal()">
+          <span>🛡️</span>
+          <span>KEMBALI KE GERBANG</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="royal-footer">
+      <p>&copy; 2026 Liferin Healthy Foods. All Rights Reserved.</p>
+    </footer>
+
+  </div>
+
+  <!-- ==========================================================================
+       VANILLA JAVASCRIPT LOGIC
+       ========================================================================== -->
+  <script>
+    /* ==========================================================================
+       1. GLOBAL STATE & CONFIGURATION
+       ========================================================================== */
+    const CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTsIEd9kvCDu-2hIQ70SrTkBg5hHJNE6OU_zSnxb5ltj2ssyfPMgruRL87Mh9ZqHW0jAxETbTdzgb4G/pub?gid=840539455&single=true&output=csv';
+
+    let csvDataStore = [];
+    let isDataLoaded = false;
+
+
+    // Fallback static dataset in case network fails
+    const FALLBACK_DATA = [
+      ["Ayu (Jakarta Barat)", "", "576582", "164", "4", "23.780.000", "182"],
+      ["Risa Maharani", "", "110673", "126", "4", "18.663.073", "143"],
+      ["yani (UD HEWAN H UJANG)", "", "049974", "67", "3", "8.550.226", "65"],
+      ["Vicka (Tangerang)", "", "727394", "26", "9", "8.005.000", "61"],
+      ["Khusnul Laili", "", "229220", "2", "2", "295.000", "2"],
+      ["Cut tisa sabrina", "", "969690", "2", "2", "295.000", "2"],
+      ["Bangsawan Raden", "", "334455", "10", "5", "5.000.000", "18"],
+      ["Tamu Agung", "", "112233", "8", "4", "3.000.000", "12"]
+    ];
+
+
+
+    /* ==========================================================================
+       3. CSV FETCHING & PARSING
+       ========================================================================== */
+    function parseCSV(text) {
+      const lines = [];
+      let row = [];
+      let current = '';
+      let insideQuotes = false;
+
+      for (let i = 0; i < text.length; i++) {
+        const char = text[i];
+        const nextChar = text[i + 1];
+
+        if (char === '"') {
+          if (insideQuotes && nextChar === '"') {
+            current += '"';
+            i++;
+          } else {
+            insideQuotes = !insideQuotes;
+          }
+        } else if (char === ',' && !insideQuotes) {
+          row.push(current.trim());
+          current = '';
+        } else if ((char === '\r' || char === '\n') && !insideQuotes) {
+          if (char === '\r' && nextChar === '\n') i++;
+          row.push(current.trim());
+          if (row.some(c => c.length > 0)) lines.push(row);
+          row = [];
+          current = '';
+        } else {
+          current += char;
+        }
+      }
+      if (current || row.length > 0) {
+        row.push(current.trim());
+        if (row.some(c => c.length > 0)) lines.push(row);
+      }
+      return lines;
+    }
+
+    async function loadDataFromGoogleSheets() {
+      const statusText = document.getElementById('liveStatusText');
+      try {
+        const response = await fetch(CSV_URL);
+        if (!response.ok) throw new Error('HTTP status ' + response.status);
+        const text = await response.text();
+        const rawRows = parseCSV(text);
+
+        if (rawRows.length > 0) {
+          const header = rawRows[0].map(h => h.toLowerCase());
+          
+          let nameIdx = header.findIndex(h => h.includes('nama'));
+          let phoneIdx = header.findIndex(h => h.includes('hp') || h.includes('telepon'));
+          let kurmaIdx = header.findIndex(h => h.includes('kurma'));
+
+          if (nameIdx === -1) nameIdx = 0;
+          if (phoneIdx === -1) phoneIdx = 2;
+          if (kurmaIdx === -1) kurmaIdx = 6;
+
+          csvDataStore = rawRows.slice(1).map(r => ({
+            rawNama: r[nameIdx] || '',
+            noHP: r[phoneIdx] || '',
+            kurmaEmas: r[kurmaIdx] || '0'
+          }));
+
+          isDataLoaded = true;
+          if (statusText) statusText.textContent = `Kitab Terhubung (${csvDataStore.length} Warga Recorded)`;
+        }
+      } catch (err) {
+        console.warn('Gagal fetch live CSV, menggunakan data cadangan istana:', err);
+        csvDataStore = FALLBACK_DATA.map(r => ({
+          rawNama: r[0],
+          noHP: r[2],
+          kurmaEmas: r[6]
+        }));
+        isDataLoaded = true;
+        if (statusText) statusText.textContent = 'Kitab Offline (Menggunakan Data Cadangan)';
+      }
+    }
+
+    /* ==========================================================================
+       4. DATA PROCESSING RULES
+       ========================================================================== */
+    function formatRoyalName(rawName) {
+      if (!rawName) return "Hamba Allah";
+      
+      // Clean bracketed locations like (Jakarta Barat)
+      const cleanStr = rawName.replace(/\(.*?\)/g, '').trim();
+      const rawWords = cleanStr.split(/\s+/).filter(w => w.length > 0);
+      
+      const words = rawWords
+        .map(w => capitalize(w.replace(/[^a-zA-Z0-9]/g, '')))
+        .filter(w => w.length > 0);
+
+      if (words.length === 0) return "Tamu Kehormatan";
+
+      const firstWord = words[0];
+
+      // Jika kata pertama >= 4 karakter, ambil 1 kata
+      if (firstWord.length >= 4) {
+        return firstWord;
+      }
+
+      // Jika kurang dari 4 karakter dan ada kata ke-2, ambil 2 kata paling depan
+      if (words.length >= 2) {
+        return `${words[0]} ${words[1]}`;
+      }
+
+      return firstWord;
+    }
+
+    function capitalize(str) {
+      if (!str) return '';
+      return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
+    }
+
+    function getStatusTier(kurmaEmasVal) {
+      const count = parseInt(kurmaEmasVal, 10) || 0;
+
+      if (count < 4) {
+        return {
+          name: "Pendatang",
+          levelLabel: "Tingkatan Level Dasar",
+          icon: "🏕️",
+          color: "#38BDF8",
+          badgeBg: "linear-gradient(135deg, #1E293B, #0F172A)",
+          minKurma: 0,
+          nextTarget: 4,
+          nextStatus: "Warga Istana",
+          rewards: [
+            { id: 1, title: "Diskon 5% Pembelian Berikutnya", icon: "🏷️", desc: "Voucher diskon spesial untuk transaksi selanjutnya di Liferin Healthy Foods." },
+            { id: 2, title: "E-Book Resep Dessert Kurma", icon: "📖", desc: "Kumpulan resep makanan sehat & hidangan manis berbahan dasar kurma pilihan." }
+          ]
+        };
+      } else if (count <= 8) {
+        return {
+          name: "Warga Istana",
+          levelLabel: "Tingkatan Level Kedua",
+          icon: "🏰",
+          color: "#34D399",
+          badgeBg: "linear-gradient(135deg, #064E3B, #022C22)",
+          minKurma: 4,
+          nextTarget: 9,
+          nextStatus: "Tamu Kehormatan",
+          rewards: [
+            { id: 1, title: "Gratis 1 Pouch Kurma Cokelat Mini", icon: "🍫", desc: "Nikmati camilan lezat kurma berselimut cokelat lumer khas Istana." },
+            { id: 2, title: "Voucher Potongan Ongkir Rp 10.000", icon: "🚚", desc: "Hemat biaya pengiriman untuk setiap pesanan kurma favoritmu." }
+          ]
+        };
+      } else if (count <= 15) {
+        return {
+          name: "Tamu Kehormatan",
+          levelLabel: "Tingkatan Level Ketiga",
+          icon: "🏅",
+          color: "#FBBF24",
+          badgeBg: "linear-gradient(135deg, #78350F, #451A03)",
+          minKurma: 9,
+          nextTarget: 16,
+          nextStatus: "Bangsawan",
+          rewards: [
+            { id: 1, title: "Tumbler Eksklusif Istana Liferin", icon: "🥤", desc: "Merchandise resmi edisi khusus Kerajaan Liferin untuk gaya hidup sehat." },
+            { id: 2, title: "Diskon 15% Semua Produk", icon: "🏷️", desc: "Potongan harga istimewa 15% untuk seluruh varian produk sehat Liferin." }
+          ]
+        };
+      } else if (count <= 23) {
+        return {
+          name: "Bangsawan",
+          levelLabel: "Tingkatan Level Keempat",
+          icon: "👑",
+          color: "#E879F9",
+          badgeBg: "linear-gradient(135deg, #581C87, #3B0764)",
+          minKurma: 16,
+          nextTarget: 24,
+          nextStatus: "Sultan",
+          rewards: [
+            { id: 1, title: "Hampers Premium Liferin", icon: "🎁", desc: "Paket bingkisan mewah berisi aneka produk superfood terbaik Istana." },
+            { id: 2, title: "Undangan VIP Event Kerajaan", icon: "✉️", desc: "Akses eksklusif acara Product Tasting VIP & Peluncuran Menu Baru Liferin." }
+          ]
+        };
+      } else {
+        return {
+          name: "Sultan",
+          levelLabel: "Tingkatan Level Tertinggi",
+          icon: "💎",
+          color: "#F59E0B",
+          badgeBg: "linear-gradient(135deg, #854D0E, #713F12)",
+          minKurma: 24,
+          nextTarget: null,
+          nextStatus: null,
+          rewards: [
+            { id: 1, title: "Logam Mulia (Emas Antam) 0.5g", icon: "🥇", desc: "Emas batangan asli sebagai apresiasi ketahtaan tertinggi di Kerajaan Liferin." },
+            { id: 2, title: "Bebas Ongkir ke Seluruh Kerajaan", icon: "👑", desc: "Fasilitas bebas biaya kirim 100% tanpa syarat selama 1 Tahun Penuh." }
+          ]
+        };
+      }
+    }
+
+    /* ==========================================================================
+       5. INPUT VALIDATION & SEARCH HANDLER
+       ========================================================================== */
+    const phoneInput = document.getElementById('phoneInput');
+    const charCounter = document.getElementById('charCounter');
+
+    phoneInput.addEventListener('input', (e) => {
+      let val = e.target.value.replace(/\D/g, ''); // Digits only
+      if (val.length > 6) val = val.slice(0, 6);
+      e.target.value = val;
+      charCounter.textContent = `${val.length}/6`;
+    });
+
+    function fillAndSearch(digits) {
+      phoneInput.value = digits;
+      charCounter.textContent = `${digits.length}/6`;
+      handleSearch(new Event('submit'));
+    }
+
+    async function handleSearch(event) {
+      if (event) event.preventDefault();
+
+      const inputVal = phoneInput.value.trim();
+
+      if (inputVal.length !== 6 || !/^\d{6}$/.test(inputVal)) {
+        showErrorModal('Input Harus 6 Angka!', 'Mohon masukkan tepat 6 angka terakhir nomor HP Anda (contoh: 123456).');
+        return;
+      }
+
+      if (!isDataLoaded) {
+        await loadDataFromGoogleSheets();
+      }
+
+      // Search CSV matching last 6 digits of cleaned phone
+      const foundRecord = csvDataStore.find(item => {
+        const cleanPhone = String(item.noHP).replace(/\D/g, '');
+        return cleanPhone.length >= 6 && cleanPhone.endsWith(inputVal);
+      });
+
+      if (!foundRecord) {
+        showErrorModal(
+          'Titah Tidak Ditemukan',
+          `Maaf, jejak langkahmu dengan 6 angka terakhir (${inputVal}) belum tercatat di gerbang istana. Pastikan 6 angka terakhir nomor HP-mu sudah benar, atau hubungi Pengawal Istana Liferin.`
+        );
+      } else {
+        triggerConfetti();
+        renderResultView(foundRecord, inputVal);
+      }
+    }
+
+    function renderResultView(record, userDigits) {
+      const formattedName = formatRoyalName(record.rawNama);
+      const count = parseInt(record.kurmaEmas, 10) || 0;
+      const tier = getStatusTier(count);
+
+      // Sapaan Apresiatif
+      document.getElementById('greetingName').textContent = `Wahai ${formattedName}, Gerbang Istana Kurma Cokelat Telah Terbuka!`;
+      const greetingSub = document.getElementById('greetingSub');
+      if (greetingSub) {
+        greetingSub.textContent = 'Nikmati kurma cokelat pilihan, kumpulkan Kurma Emas, dan tempuh perjalananmu menuju gelar tertinggi di Istana.';
+      }
+
+      // Status Badge
+      document.getElementById('tierIcon').textContent = tier.icon;
+      document.getElementById('tierName').textContent = tier.name;
+      document.getElementById('tierName').style.color = tier.color;
+      document.getElementById('phoneMasked').textContent = tier.levelLabel;
+      
+      const heroBg = document.getElementById('statusBadgeHero');
+      heroBg.style.background = tier.badgeBg;
+      heroBg.style.borderColor = tier.color;
+
+      // Poin Kurma Emas
+      document.getElementById('kurmaCount').textContent = count;
+
+      // Progress & Persuasion
+      const progressBarFill = document.getElementById('progressBarFill');
+      const persuasionMsg = document.getElementById('persuasionMsg');
+
+      if (tier.nextTarget) {
+        const needed = tier.nextTarget - count;
+        const progressPct = Math.min(100, Math.max(0, ((count - tier.minKurma) / (tier.nextTarget - tier.minKurma)) * 100));
+        
+        setTimeout(() => {
+          progressBarFill.style.width = `${progressPct}%`;
+        }, 200);
+
+        persuasionMsg.innerHTML = `
+          ⚡ <strong>Tinggal Sedikit Lagi!</strong> Hanya butuh <strong>${needed} Kurma Emas</strong> lagi untuk dinobatkan sebagai <strong>${tier.nextStatus}</strong>! Ayo, jangan sampai tahtamu direbut warga lain! 👑
+        `;
+      } else {
+        progressBarFill.style.width = '100%';
+        persuasionMsg.innerHTML = `
+          💎 <strong>Puncak Ketahtaan Tertinggi!</strong> Engkau telah mencapai tahta sebagai <strong>Sultan Kerajaan Liferin</strong>. Kemuliaan dan keagungan senantiasa menyertaimu! ⚜️
+        `;
+      }
+
+      // Rewards Grid
+      const rewardsGrid = document.getElementById('rewardsGrid');
+      rewardsGrid.innerHTML = '';
+
+      tier.rewards.forEach(rew => {
+        const item = document.createElement('div');
+        item.className = 'reward-item-card';
+        item.innerHTML = `
+          <div class="reward-icon-box">${rew.icon}</div>
+          <div class="reward-info">
+            <div class="reward-title">${rew.title}</div>
+            <div class="reward-desc">${rew.desc}</div>
+          </div>
+          <button class="reward-chest-btn" onclick="revealReward(this, '${rew.title}')">🎁 Buka Hadiah</button>
+        `;
+        rewardsGrid.appendChild(item);
+      });
+
+      // Switch view
+      switchView('resultView');
+    }
+
+    function revealReward(btn, title) {
+      triggerConfetti();
+      btn.style.background = 'var(--gold-primary)';
+      btn.style.color = '#000000';
+      btn.style.borderStyle = 'solid';
+      btn.innerHTML = '✅ Terbuka';
+      btn.disabled = true;
+
+      // Open WhatsApp Claim
+      setTimeout(() => {
+        const text = encodeURIComponent(`Halo Pengawal Istana Liferin, saya mau klaim Hadiah Ketahtaan: "${title}".`);
+        window.open(`https://wa.me/?text=${text}`, '_blank');
+      }, 600);
+    }
+
+    function switchView(viewId) {
+      document.querySelectorAll('.view-section').forEach(sec => sec.classList.remove('active'));
+      const activeSec = document.getElementById(viewId);
+      if (activeSec) {
+        activeSec.classList.add('active');
+      }
+    }
+
+    function resetToSearch() {
+      phoneInput.value = '';
+      charCounter.textContent = '0/6';
+      switchView('searchView');
+      setTimeout(() => phoneInput.focus(), 300);
+    }
+
+    function showErrorModal(title, msg) {
+      document.querySelector('.modal-title').textContent = title;
+      document.getElementById('errorModalMsg').textContent = msg;
+      document.getElementById('errorModal').classList.add('active');
+    }
+
+    function closeErrorModal() {
+      document.getElementById('errorModal').classList.remove('active');
+    }
+
+    /* ==========================================================================
+       6. ROYAL PARTICLES CANVAS BACKGROUND
+       ========================================================================== */
+    const canvas = document.getElementById('royalParticles');
+    const ctx = canvas.getContext('2d');
+    let particles = [];
+
+    function resizeCanvas() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
+
+    class Particle {
+      constructor() {
+        this.reset();
+      }
+      reset() {
+        this.x = Math.random() * canvas.width;
+        this.y = Math.random() * canvas.height;
+        this.size = Math.random() * 2.5 + 0.5;
+        this.speedY = Math.random() * 0.4 + 0.1;
+        this.opacity = Math.random() * 0.6 + 0.2;
+        this.fade = Math.random() * 0.005 + 0.002;
+      }
+      update() {
+        this.y -= this.speedY;
+        this.opacity -= this.fade;
+        if (this.opacity <= 0 || this.y <= 0) {
+          this.reset();
+          this.y = canvas.height + 10;
+        }
+      }
+      draw() {
+        ctx.fillStyle = `rgba(212, 175, 55, ${this.opacity})`;
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        ctx.fill();
+      }
+    }
+
+    for (let i = 0; i < 45; i++) {
+      particles.push(new Particle());
+    }
+
+    function animateParticles() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      particles.forEach(p => {
+        p.update();
+        p.draw();
+      });
+      requestAnimationFrame(animateParticles);
+    }
+    animateParticles();
+
+    /* ==========================================================================
+       7. CONFETTI BURST ENGINE
+       ========================================================================== */
+    const confettiCanvas = document.getElementById('confettiCanvas');
+    const cCtx = confettiCanvas.getContext('2d');
+    let confettiList = [];
+
+    function resizeConfetti() {
+      confettiCanvas.width = window.innerWidth;
+      confettiCanvas.height = window.innerHeight;
+    }
+    window.addEventListener('resize', resizeConfetti);
+    resizeConfetti();
+
+    function triggerConfetti() {
+      confettiList = [];
+      const colors = ['#D4AF37', '#FFE885', '#F59E0B', '#800020', '#FFFFFF'];
+      for (let i = 0; i < 70; i++) {
+        confettiList.push({
+          x: confettiCanvas.width / 2,
+          y: confettiCanvas.height / 2,
+          vx: (Math.random() - 0.5) * 12,
+          vy: (Math.random() - 0.8) * 14,
+          size: Math.random() * 8 + 4,
+          color: colors[Math.floor(Math.random() * colors.length)],
+          rotation: Math.random() * 360,
+          rSpeed: (Math.random() - 0.5) * 10,
+          opacity: 1
+        });
+      }
+      animateConfetti();
+    }
+
+    function animateConfetti() {
+      if (confettiList.length === 0) return;
+      cCtx.clearRect(0, 0, confettiCanvas.width, confettiCanvas.height);
+
+      confettiList.forEach((c, idx) => {
+        c.x += c.vx;
+        c.y += c.vy;
+        c.vy += 0.3; // gravity
+        c.rotation += c.rSpeed;
+        c.opacity -= 0.015;
+
+        cCtx.save();
+        cCtx.translate(c.x, c.y);
+        cCtx.rotate((c.rotation * Math.PI) / 180);
+        cCtx.fillStyle = c.color;
+        cCtx.globalAlpha = Math.max(0, c.opacity);
+        cCtx.fillRect(-c.size / 2, -c.size / 2, c.size, c.size);
+        cCtx.restore();
+
+        if (c.opacity <= 0) {
+          confettiList.splice(idx, 1);
+        }
+      });
+
+      if (confettiList.length > 0) {
+        requestAnimationFrame(animateConfetti);
+      }
+    }
+
+    // Preload CSV data on startup
+    window.addEventListener('DOMContentLoaded', () => {
+      loadDataFromGoogleSheets();
+    });
+  </script>
+</body>
+</html>

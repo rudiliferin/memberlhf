@@ -1,0 +1,6 @@
+{
+  "name": "Portal Cek Status Membership Liferin",
+  "description": "Aplikasi portal cek status membership pelanggan Liferin Healthy Foods bertema kerajaan mewah dan gamifikasi.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
